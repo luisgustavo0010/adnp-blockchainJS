@@ -14,9 +14,10 @@ class Transaction{
 // Cria uma classe Block com um construtor para os dados dentro do bloco
 class Block{ 
     
-    constructor(timestamp, transactions, previousHash = ''){
+    constructor(index, timestamp, previousHash = ''){
+        this.index = index;
         this.timestamp = timestamp;
-        this.transactions = transactions;
+    //  this.transactions = transactions;
         this.previousHash = previousHash
         this.hash = this.calculateHash();
         this.nonce = 0; // atraves do processo de mineração, não posso alterar os dados
@@ -51,7 +52,7 @@ class Block{
 class Blockchain{
     constructor(){
         this.chain = [this.createGenesisBlock()]
-        this.difficulty = 2; // Quantidade de zeros adicionado
+        this.difficulty = 5; // Quantidade de zeros adicionado
         this.pendingTransactions = [];
         this.miningReward = 100;
     }
@@ -69,25 +70,25 @@ class Blockchain{
     // // Adiciona um novo bloco, chamando a hash do 
     // // bloco anterior e calcula novamente o hash caso haja alguma alteração,
     // // adicionando ele na cadeia novamente
-    // addBlock(newBlock){
-    //     newBlock.previousHash = this.getLatestBLock().hash;
-    // //    newBlock.hash = newBlock.calculateHash();
-    //     newBlock.mineBlock(this.difficulty);
-    //     this.chain.push(newBlock);
+    addBlock(newBlock){
+        newBlock.previousHash = this.getLatestBLock().hash;
+    //    newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock(this.difficulty);
+        this.chain.push(newBlock);
 
-    // }
-
-    // Cria uma transação e a deixa pendente refereindo-se ao endereço e valor trasnferido
-    minePendingTransactions(miningRewardAddress){
-        let block = new Block(Date.now(),this.pendingTransactions);
-        block.mineBlock(this.difficulty);
-        this.chain.push(block);
-
-        this.pendingTransactions = [
-            new Transaction(null, miningRewardAddress, this.miningReward)
-        ];
-        
     }
+
+    // // Cria uma transação e a deixa pendente refereindo-se ao endereço e valor trasnferido
+    // minePendingTransactions(miningRewardAddress){
+    //     let block = new Block(Date.now(),this.pendingTransactions);
+    //     block.mineBlock(this.difficulty);
+    //     this.chain.push(block);
+
+    //     this.pendingTransactions = [
+    //         new Transaction(null, miningRewardAddress, this.miningReward)
+    //     ];
+        
+    // }
 
     createTransaction(transaction){
         this.pendingTransactions.push(transaction);
@@ -133,14 +134,28 @@ class Blockchain{
 let teste = new Blockchain(); 
 
 
-// console.log('Blockchain é valido?' + teste.isChainValid())
+console.log('Blockchain é valido?' + teste.isChainValid())
 
-// console.log('Mining Block 1');
-// teste.addBlock(new Block(1, "20/08/2020", { amount: 10}));
-
-
-// console.log('Mining Block 2');
-// teste.addBlock(new Block(2, "20/08/2020", { amount: 8}));
+console.log('Mining Block 1');
+teste.addBlock(new Block(1, "20/08/2020", { amount: 10}));
+console.log('Mining Block 2');
+teste.addBlock(new Block(2, "10/08/2020", { amount: 8}));
+console.log('Mining Block 3');
+teste.addBlock(new Block(3, "05/10/2020", { amount: 7}));
+console.log('Mining Block 4');
+teste.addBlock(new Block(4, "08/11/2020", { amount: 2}));
+console.log('Mining Block 5');
+teste.addBlock(new Block(5, "22/08/2020", { amount: 1}));
+console.log('Mining Block 6');
+teste.addBlock(new Block(6, "20/08/2020", { amount: 4}));
+console.log('Mining Block 7');
+teste.addBlock(new Block(7, "20/08/2020", { amount: 9}));
+console.log('Mining Block 8');
+teste.addBlock(new Block(8, "20/08/2020", { amount: 4}));
+console.log('Mining Block 9');
+teste.addBlock(new Block(9, "20/08/2020", { amount: 5}));
+console.log('Mining Block 10');
+teste.addBlock(new Block(10, "20/08/2020", { amount: 3}));
 
 const total = new Date().getTime() - inicio
 console.log("Foi executado em: ", total + "ms") //Final tempo de exec
